@@ -1,0 +1,5 @@
+#Creation de la base de donnée et des schemas
+snow --config-file ./config.toml sql \
+  -f sql/ddl/warehouse.sql \
+  -f sql/ddl/database.sql \
+  -f sql/ddl/schema.sql

@@ -2,6 +2,10 @@ CREATE OR ALTER role dev_ops_role;
 CREATE OR ALTER role engineer_role;
 CREATE OR ALTER role app_role;
 
+GRANT ROLE dev_ops_role TO USER DEPLOYMENT_USER;
+GRANT ROLE engineer_role TO USER DEPLOYMENT_USER;
+GRANT ROLE app_role TO USER DEPLOYMENT_USER;
+
 -- DevOps role
 GRANT ALL ON SCHEMA health_app.raw to role dev_ops_role;
 GRANT ALL ON SCHEMA health_app.staging to role dev_ops_role;

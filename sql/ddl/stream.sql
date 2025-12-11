@@ -1,0 +1,1 @@
+CREATE STREAM common.raw_events_stream ON TABLE raw.raw_events APPEND_ONLY = TRUE;
