@@ -1,5 +1,5 @@
 
-snow --config-file config.toml sql \
+snow --config-file ./connection/config.toml sql \
   -f sql/ddl/raw_tables.sql \
   -f sql/ddl/staging_tables.sql \
   -f sql/ddl/common_tables.sql \

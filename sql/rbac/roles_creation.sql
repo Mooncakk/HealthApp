@@ -25,6 +25,6 @@ GRANT INSERT ON FUTURE TABLES in schema health_app.raw to role app_role;
 GRANT INSERT ON FUTURE TABLES in schema health_app.staging to role app_role;
 GRANT INSERT ON FUTURE TABLES in schema health_app.common to role app_role;
 
-GRANT CREATE TASK ON SCHEMA health_app.raw TO ROLE app_role;
+GRANT CREATE TASK ON SCHEMA health_app.common TO ROLE app_role;
 GRANT EXECUTE TASK ON ACCOUNT TO ROLE app_role;
 

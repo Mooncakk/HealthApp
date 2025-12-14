@@ -1,7 +1,7 @@
 # HealthApp
 Avoir un compte snowflake
 
-créer clé privée et publique
+créer clé privée et publique avec cette commande => dossier connection
 créer l'utilisatuer de service deployment_user
 assigner la clé publique à l'utilisateur
 
