@@ -50,8 +50,8 @@ BEGIN
                 re.event_timestamp,
                 re.process_name,
                 re.process_id,
-                raw.extract_log_trigger(re.message) AS log_trigger,
-                raw.extract_log_message(re.message) AS message
+                common.extract_log_trigger(re.message) AS log_trigger,
+                common.extract_log_message(re.message) AS message
             FROM raw.raw_events re
             JOIN raw.data_to_process dtp
             ON re.event_id = dtp.event_id
@@ -116,7 +116,7 @@ LANGUAGE SQL
 EXECUTE AS CALLER
 AS '
     INSERT INTO raw.data_to_process (event_id, event_timestamp, process_name, process_id, message)
-    (SELECT event_id, event_timestamp, process_name, process_id, message FROM raw.raw_events_stream);
+    (SELECT event_id, event_timestamp, process_name, process_id, message FROM COMMON.RAW_EVENTS_STREAM);
 ';
 
 
