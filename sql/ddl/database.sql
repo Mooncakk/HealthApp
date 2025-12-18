@@ -1,0 +1,1 @@
+CREATE OR ALTER DATABASE health_app;
