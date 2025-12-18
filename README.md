@@ -60,10 +60,9 @@ ALTER USER deployment_user SET RSA_PUBLIC_KEY='CONTENU_DE_VOTRE_CLE_PUBLIQUE';
 # Account locator Snowflake (format: XXXXXXX-YYYYYYY)
 export SNOWFLAKE_ACCOUNT='votre-account-locator'
 
-# Nom d'utilisateur de service
-export SNOWFLAKE_USER='deployment_user'
+# Votre nom d'utilisateur Snowflake SNOWFLAKE_USER='NomUtilisateur'
 
-# Mot de passe (si requis pour la session)
+# Mot de passe de votre utilisateur Snowflake
 export SNOWFLAKE_PASSWORD='VotreMotDePasse'
 ```
 
