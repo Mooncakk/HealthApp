@@ -1,5 +1,8 @@
-INSERT INTO raw.raw_events (event_timestamp, process_name, process_id, message)
-values
-('2017-12-23 22:15:29.606','Step_LSC', 30002312, 'onStandStepChanged 3579'),
-('2017-12-23 22:15:29.615','Step_LSC', 30002312, 'onExtend:1514038530000 14 0 4'),
-('2017-12-23 22:15:29.633','Step_StandReportReceiver', 30002312, 'onReceive action: android.intent.action.SCREEN_ON');
+COPY INTO RAW.RAW_EVENTS (event_timestamp, process_name, process_id, message)
+FROM
+(SELECT
+    $1 AS event_timestamp,
+    $2 AS process_name,
+    $3 AS process_id,
+    $4 AS message
+FROM @common.internal_stage);
