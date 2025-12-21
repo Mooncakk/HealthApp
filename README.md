@@ -42,9 +42,11 @@ openssl genrsa 2048 | openssl pkcs8 -topk8 -inform PEM -out rsa_key.p8 -nocrypt
 openssl rsa -in rsa_key.p8 -pubout -out rsa_key.pub
 ```
 
-### 4. Créer l'utilisateur de service dans Snowflake
+### 4. Créer l'utilisateur de service et le rôle dans Snowflake
 
 Connectez-vous à Snowflake et exécutez :
+
+- Création de l'utilisateur de service
 ```sql
 -- Créer l'utilisateur de service
 CREATE USER deployment_user
@@ -54,23 +56,38 @@ CREATE USER deployment_user
 ALTER USER deployment_user SET RSA_PUBLIC_KEY='CONTENU_DE_VOTRE_CLE_PUBLIQUE';
 ```
 
+- Création du rôle dev_sec_ops_role
+```sql
+-- Créer le rôle DevSecOps (si il n'existe pas déjà)
+CREATE ROLE IF NOT EXISTS dev_sec_ops_role;
+
+-- Accorder les privilèges de création au niveau du compte
+GRANT CREATE WAREHOUSE ON ACCOUNT TO ROLE dev_sec_ops_role;
+GRANT CREATE DATABASE ON ACCOUNT TO ROLE dev_sec_ops_role;
+GRANT CREATE USER ON ACCOUNT TO ROLE dev_sec_ops_role;
+GRANT CREATE ROLE ON ACCOUNT TO ROLE dev_sec_ops_role;
+
+-- Accorder les privilèges de gestion des accès
+GRANT MANAGE GRANTS ON ACCOUNT TO ROLE dev_sec_ops_role;
+
+-- Accorder le privilège d'exécution des tâches (avec option de délégation)
+GRANT EXECUTE TASK ON ACCOUNT TO ROLE dev_sec_ops_role WITH GRANT OPTION;
+
+-- Assigner le rôle au compte de service deployment_user
+GRANT ROLE dev_sec_ops_role TO USER deployment_user;
+```
+
 ### 5. Configurer les variables d'environnement
 
 ```bash
-# Account locator Snowflake (format: XXXXXXX-YYYYYYY)
+# Account locator Snowflake (format: XXXXXXX)
 export SNOWFLAKE_ACCOUNT='votre-account-locator'
 
-# Votre nom d'utilisateur Snowflake SNOWFLAKE_USER='NomUtilisateur'
-
-# Mot de passe de votre utilisateur Snowflake
-export SNOWFLAKE_PASSWORD='VotreMotDePasse'
 ```
 
 💡 **Tip**: Pour rendre ces variables permanentes :
 ```bash
 echo 'export SNOWFLAKE_ACCOUNT="votre-account-locator"' >> ~/.bashrc
-echo 'export SNOWFLAKE_USER="deployment_user"' >> ~/.bashrc
-echo 'export SNOWFLAKE_PASSWORD="VotreMotDePasse"' >> ~/.bashrc
 source ~/.bashrc
 ```
 

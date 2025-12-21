@@ -1,18 +1,19 @@
 CREATE OR REPLACE PROCEDURE COMMON.DATA_QUALITY("GRAPH_RUN_GROUP_ID" VARCHAR)
-RETURNS VARCHAR
+RETURNS INTEGER
 LANGUAGE SQL
 EXECUTE AS CALLER
 AS '
 BEGIN
     LET NBRE_LIGNES_INCORRECTES INT := 0;
-    INSERT INTO COMMON.DATA_ANOMALIES (EVENT_ID, IS_CORRECT_TIMESTAMP, IS_CORRECT_PROCESS_NAME, IS_OVERDUE, DAYS_LATE, GRAPH_RUN_GROUP_ID)
+    INSERT INTO COMMON.DATA_ANOMALIES (EVENT_ID, IS_CORRECT_TIMESTAMP, IS_CORRECT_PROCESS_NAME, IS_OVERDUE, DAYS_LATE, SOURCE_FILENAME, GRAPH_RUN_GROUP_ID)
     WITH SOURCE AS (
         SELECT
             EVENT_ID,
             COMMON.CHECK_CORRECT_TIMESTAMP(EVENT_TIMESTAMP) AS IS_CORRECT_TIMESTAMP,
             COMMON.CHECK_CORRECT_PROCESS_NAME(PROCESS_NAME) AS IS_CORRECT_PROCESS_NAME,
             COMMON.ARRIVEE_TARDIVE(EVENT_TIMESTAMP) AS IS_OVERDUE,
-            IFF(IS_OVERDUE, TIMESTAMPDIFF(DAY, EVENT_TIMESTAMP, CURRENT_TIMESTAMP()), NULL) AS DAYS_LATE
+            IFF(IS_OVERDUE, TIMESTAMPDIFF(DAY, EVENT_TIMESTAMP, CURRENT_TIMESTAMP()), NULL) AS DAYS_LATE,
+            SOURCE_FILENAME
         FROM RAW.RAW_EVENTS
         )
     SELECT *, :GRAPH_RUN_GROUP_ID AS GRAPH_RUN_GROUP_ID
@@ -35,7 +36,7 @@ VALUES (:GRAPH_RUN_GROUP_ID, :TABLE_NAME, :N_ROWS, :ERROR_MESSAGE);
 
 
 CREATE OR REPLACE PROCEDURE COMMON.ENRICH_DATA("TABLE_NAME" VARCHAR, "PROCESS_NAME" VARCHAR, "GRAPH_RUN_GROUP_ID" VARCHAR)
-RETURNS VARCHAR
+RETURNS INTEGER
 LANGUAGE SQL
 EXECUTE AS CALLER
 AS '
@@ -45,7 +46,7 @@ DECLARE
 BEGIN
     LET n_rows INT := 0;
 
-    INSERT INTO IDENTIFIER(:full_table_name) (event_timestamp, process_id, log_trigger, message)
+    INSERT INTO IDENTIFIER(:full_table_name) (event_timestamp, process_id, log_trigger, message, source_filename)
     WITH
         source AS
             (SELECT
@@ -53,7 +54,8 @@ BEGIN
                 re.process_name,
                 re.process_id,
                 common.extract_log_trigger(re.message) AS log_trigger,
-                common.extract_log_message(re.message) AS message
+                common.extract_log_message(re.message) AS message,
+                re.source_filename AS source_filename
             FROM raw.raw_events re
             JOIN raw.data_to_process dtp
             ON re.event_id = dtp.event_id
@@ -65,7 +67,8 @@ BEGIN
         event_timestamp,
         process_id,
         log_trigger,
-        message
+        message,
+        source_filename
     FROM source;
     n_rows := SQLROWCOUNT;
 
