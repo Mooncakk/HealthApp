@@ -2,6 +2,8 @@
 
 Pipeline de traitement et d'analyse de logs avec intégration Snowflake.
 
+![task_graph.png](task_graph.png)
+
 ## 📋 Description
 
 HealthApp collecte et traite des logs applicatifs :
