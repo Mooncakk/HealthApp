@@ -20,9 +20,10 @@ HealthApp collecte et traite des logs applicatifs :
 - Python 3.8+
 - Bash shell
 - OpenSSL (pour génération des clés)
-- Snowflake-CLI
+- Snowflake-CLI >=3.*
 
 ## 🔧 Installation
+
 
 ### 1. Cloner le repository
 ```bash
@@ -31,9 +32,7 @@ cd HealthApp
 ```
 
 ### 2. Installer les dépendances Python
-```bash
-pip install -r requirements.txt
-```
+Installer Snowflake-CLI>=3.*
 
 ### 3. Configurer les clés RSA pour Snowflake
 
@@ -50,33 +49,46 @@ Connectez-vous à Snowflake et exécutez :
 
 - Création de l'utilisateur de service
 ```sql
+-- Se mettre en tant que SECURITYADMIN
+USE ROLE SECURITYADMIN;
+
 -- Créer l'utilisateur de service
 CREATE USER deployment_user
-  TYPE = SERVICE;
-
--- Assigner la clé publique (copier le contenu de rsa_key.pub sans header/footer)
-ALTER USER deployment_user SET RSA_PUBLIC_KEY='CONTENU_DE_VOTRE_CLE_PUBLIQUE';
+TYPE = SERVICE
+RSA_PUBLIC_KEY='CONTENU_DE_VOTRE_CLE_PUBLIQUE';
 ```
 
 - Création du rôle dev_sec_ops_role
 ```sql
+-- Se mettre en tant que SECURITYADMIN
+USE ROLE SECURITYADMIN;
+
 -- Créer le rôle DevSecOps (si il n'existe pas déjà)
 CREATE ROLE IF NOT EXISTS dev_sec_ops_role;
 
--- Accorder les privilèges de création au niveau du compte
-GRANT CREATE WAREHOUSE ON ACCOUNT TO ROLE dev_sec_ops_role;
-GRANT CREATE DATABASE ON ACCOUNT TO ROLE dev_sec_ops_role;
+--Accorder les privilèges de création de rôle et user au niveau du compte
 GRANT CREATE USER ON ACCOUNT TO ROLE dev_sec_ops_role;
 GRANT CREATE ROLE ON ACCOUNT TO ROLE dev_sec_ops_role;
 
 -- Accorder les privilèges de gestion des accès
 GRANT MANAGE GRANTS ON ACCOUNT TO ROLE dev_sec_ops_role;
 
--- Accorder le privilège d'exécution des tâches (avec option de délégation)
-GRANT EXECUTE TASK ON ACCOUNT TO ROLE dev_sec_ops_role WITH GRANT OPTION;
-
 -- Assigner le rôle au compte de service deployment_user
 GRANT ROLE dev_sec_ops_role TO USER deployment_user;
+
+-- Assigner le rôle au SYSADMIN
+GRANT ROLE DEV_SEC_OPS_ROLE TO ROLE SYSADMIN;
+
+
+-- Se mettre en tant que SYSADMIN
+USE ROLE SYSADMIN;
+
+-- Accorder les privilèges de création d'objet au niveau du compte
+GRANT CREATE WAREHOUSE ON ACCOUNT TO ROLE dev_sec_ops_role;
+GRANT CREATE DATABASE ON ACCOUNT TO ROLE dev_sec_ops_role;
+
+-- Accorder le privilège d'exécution des tâches (avec option de délégation)
+GRANT EXECUTE TASK ON ACCOUNT TO ROLE dev_sec_ops_role WITH GRANT OPTION;
 ```
 
 ### 5. Configurer les variables d'environnement
@@ -128,17 +140,15 @@ HealthApp/
 
 ## 🔍 Vérification
 
-Après l'exécution, vérifiez dans Snowflake :
+Après l'exécution, vérifiez les objets créés dans Snowflake :
 ```sql
--- Lister les bases de données créées
+-- Lister les bases de données
 SHOW DATABASES;
 
--- Vérifier les tables de logs
-USE DATABASE votre_database;
-SHOW TABLES;
+-- Vérifier les tables dans la DB
+USE DATABASE HEALTH_APP;
+SHOW TABLES IN DATABASE HEALTH_APP;
 
--- Exemple de requête sur les logs
-SELECT * FROM logs_table LIMIT 10;
 ```
 
 ## 🐛 Dépannage
@@ -159,5 +169,7 @@ SELECT * FROM logs_table LIMIT 10;
 
 ⚠️ **Important** :
 - Ne commitez JAMAIS vos clés privées ou mots de passe
-- Ajoutez `connection/rsa_key.p8` et `.env` au `.gitignore`
+- Ajoutez `connection/rsa_key.p8`, connection/rsa_key.pub  et `.env` au `.gitignore`
+- L'utilisateur de service doit avoir les privilèges minimums nécessaires
+/rsa_key.p8` et `.env` au `.gitignore`
 - L'utilisateur de service doit avoir les privilèges minimums nécessaires
