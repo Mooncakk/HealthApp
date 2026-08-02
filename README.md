@@ -169,7 +169,7 @@ SHOW TABLES IN DATABASE HEALTH_APP;
 
 ⚠️ **Important** :
 - Ne commitez JAMAIS vos clés privées ou mots de passe
-- Ajoutez `connection/rsa_key.p8`, connection/rsa_key.pub  et `.env` au `.gitignore`
+- Ajoutez `connection/rsa_key.p8`, `connection/rsa_key.pub`  et `.env` au `.gitignore`
 - L'utilisateur de service doit avoir les privilèges minimums nécessaires
 /rsa_key.p8` et `.env` au `.gitignore`
 - L'utilisateur de service doit avoir les privilèges minimums nécessaires
