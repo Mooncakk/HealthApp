@@ -118,12 +118,6 @@ Le script effectue automatiquement :
 3. Ingestion et traitement des logs
 4. Transformation via requêtes SQL
 
-### Exécution de scripts individuels
-
-Pour tester un composant spécifique :
-```bash
-python scripts/votre_script.py
-```
 
 ## 📁 Structure du projet
 
