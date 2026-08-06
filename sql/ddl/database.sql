@@ -1,1 +1,1 @@
-CREATE OR ALTER DATABASE health_app;
+CREATE OR ALTER DATABASE health_app_db;
