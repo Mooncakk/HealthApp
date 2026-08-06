@@ -43,7 +43,7 @@ CREATE OR ALTER TABLE staging.step_lsc (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP()
 );
 
-CREATE OR ALTER  TABLE staging.hih_hi_health_data_insert_store (
+CREATE OR ALTER TABLE staging.hih_hi_health_data_insert_store (
     event_timestamp TIMESTAMP,
     log_trigger STRING,
     process_id NUMBER,
@@ -61,7 +61,7 @@ CREATE OR ALTER TABLE staging.hih_data_stat_manager (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP()
 );
 
-CREATE OR ALTER  TABLE staging.hih_hi_sync_util (
+CREATE OR ALTER TABLE staging.hih_hi_sync_util (
     event_timestamp TIMESTAMP,
     log_trigger STRING,
     process_id NUMBER,
@@ -70,7 +70,7 @@ CREATE OR ALTER  TABLE staging.hih_hi_sync_util (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP()
 );
 
-CREATE OR ALTER  TABLE staging.step_stand_report_receiver (
+CREATE OR ALTER TABLE staging.step_stand_report_receiver (
     event_timestamp TIMESTAMP,
     log_trigger STRING,
     process_id NUMBER,
