@@ -64,31 +64,32 @@ RSA_PUBLIC_KEY='CONTENU_DE_VOTRE_CLE_PUBLIQUE';
 USE ROLE SECURITYADMIN;
 
 -- Créer le rôle DevSecOps (si il n'existe pas déjà)
-CREATE ROLE IF NOT EXISTS dev_sec_ops_role;
+CREATE ROLE IF NOT EXISTS dev_sec_ops_rl;
 
 --Accorder les privilèges de création de rôle et user au niveau du compte
-GRANT CREATE USER ON ACCOUNT TO ROLE dev_sec_ops_role;
-GRANT CREATE ROLE ON ACCOUNT TO ROLE dev_sec_ops_role;
+GRANT CREATE USER ON ACCOUNT TO ROLE dev_sec_ops_rl;
+GRANT CREATE ROLE ON ACCOUNT TO ROLE dev_sec_ops_rl;
 
 -- Accorder les privilèges de gestion des accès
-GRANT MANAGE GRANTS ON ACCOUNT TO ROLE dev_sec_ops_role;
+GRANT MANAGE GRANTS ON ACCOUNT TO ROLE dev_sec_ops_rl;
 
 -- Assigner le rôle au compte de service deployment_user
-GRANT ROLE dev_sec_ops_role TO USER deployment_user;
+GRANT ROLE dev_sec_ops_rl TO USER deployment_user;
 
 -- Assigner le rôle au SYSADMIN
-GRANT ROLE DEV_SEC_OPS_ROLE TO ROLE SYSADMIN;
+GRANT ROLE dev_sec_ops_rl TO ROLE SYSADMIN;
 
 
 -- Se mettre en tant que SYSADMIN
 USE ROLE SYSADMIN;
 
 -- Accorder les privilèges de création d'objet au niveau du compte
-GRANT CREATE WAREHOUSE ON ACCOUNT TO ROLE dev_sec_ops_role;
-GRANT CREATE DATABASE ON ACCOUNT TO ROLE dev_sec_ops_role;
+GRANT CREATE WAREHOUSE ON ACCOUNT TO ROLE dev_sec_ops_rl;
+GRANT CREATE DATABASE ON ACCOUNT TO ROLE dev_sec_ops_rl;
 
 -- Accorder le privilège d'exécution des tâches (avec option de délégation)
-GRANT EXECUTE TASK ON ACCOUNT TO ROLE dev_sec_ops_role WITH GRANT OPTION;
+GRANT EXECUTE TASK ON ACCOUNT TO ROLE dev_sec_ops_rl WITH GRANT OPTION;
+
 ```
 
 ### 5. Configurer les variables d'environnement
