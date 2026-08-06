@@ -6,7 +6,7 @@ if [ ! -f ./connection/config.toml ]; then
   --user deployment_user \
   --authenticator SNOWFLAKE_JWT \
   --private-key ./connection/rsa_key.p8 \
-  --role dev_sec_ops_role \
+  --role dev_sec_ops_rl \
   --no-interactive
 fi && \
 chown $USER "connection/config.toml" && \
