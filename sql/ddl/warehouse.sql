@@ -1,1 +1,6 @@
-CREATE OR ALTER WAREHOUSE ada_compute WITH WAREHOUSE_SIZE=XSMALL;
+-- Creation du Warehouse
+CREATE OR ALTER WAREHOUSE health_app_wh
+WAREHOUSE_SIZE = XSMALL
+AUTO_SUSPEND = 300
+AUTO_RESUME = TRUE
+COMMENT = "Warehouse pour projet HealthApp";
