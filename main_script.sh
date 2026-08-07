@@ -8,4 +8,4 @@ sh scripts/devops_queries.sh && \
 
 snow --config-file ./connection/config.toml sql -f sql/rbac/grant_truncate.sql && \
 
-sh scripts/app_role_queries.sh
+sh scripts/app_rl_queries.sh
