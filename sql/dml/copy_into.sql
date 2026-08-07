@@ -1,4 +1,10 @@
-COPY INTO RAW.RAW_EVENTS (event_timestamp, process_name, process_id, message, SOURCE_FILENAME, FILE_CREATED_TIME)
+COPY INTO RAW.RAW_EVENTS (
+    event_timestamp,
+    process_name,
+    process_id,
+    message,
+    SOURCE_FILENAME,
+    FILE_CREATED_TIME)
 FROM
 (SELECT
     $1 AS event_timestamp,
