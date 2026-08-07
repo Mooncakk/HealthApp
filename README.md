@@ -106,31 +106,42 @@ echo 'export SNOWFLAKE_ACCOUNT="votre-account-locator"' >> ~/.bashrc
 source ~/.bashrc
 ```
 
-## ▶️ Lancement
-
-### Exécution complète du pipeline
+### 6. Création de l'architecture
+Création du warehouse, des rôles et privilèges, de la base de données et de tous ses objets en suivant les RBAC. 
 ```bash
-./main_script.sh
+sh setup_script.sh
 ```
 
 Le script effectue automatiquement :
 1. Validation des variables d'environnement
 2. Connexion à Snowflake via l'utilisateur de service
-3. Ingestion et traitement des logs
-4. Transformation via requêtes SQL
 
+
+## ▶️ Lancement
+
+### Exécution du pipeline
+
+Chargement du dataset dans le stage et ingestion des données dans la table brut.
+```bash
+sh setup_script.sh
+```
+
+Le traitement des logs et la transformation sont gérés via les taches.
+
+
+### Vous avez maintenant des données traitées prêtes pour l'analyse !
 
 ## 📁 Structure du projet
 
 ```
 HealthApp/
 ├── connection/        # Configuration connexions et clés SSH
-├── dataset/          # Logs sources et données brutes
-├── scripts/          # Scripts Python de traitement des logs
-├── sql/              # Requêtes SQL de transformation
-├── main_script.sh    # Script principal d'orchestration
-├── requirements.txt  # Dépendances Python
-└── README.md         # Cette documentation
+├── dataset/           # Logs sources et données brutes
+├── scripts/           # Scripts Bash pour l'exécution des scripts SQL
+├── sql/               # Requêtes SQL
+├── setup_script.sh    # Script d'orchestration pour la mise en place de l'architecture
+├── data_ingestion.sh  # Script de chargement et ingestion du dataset dans Snowflake 
+└── README.md          # Cette documentation
 ```
 
 ## 🔍 Vérification
