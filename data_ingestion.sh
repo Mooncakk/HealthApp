@@ -5,10 +5,8 @@ snow --config-file ./connection/config.toml \
   --database HEALTH_APP_DB \
   --role app_rl && \
 
-#Création des taches et finalizer
-#Insertion des données
+#Insertion des données dans la table raw.raw_events
 snow --config-file ./connection/config.toml sql \
-  -f sql/ddl/tasks.sql \
   -f ./sql/dml/copy_into.sql \
   --warehouse HEALTH_APP_WH \
   --database HEALTH_APP_DB \
