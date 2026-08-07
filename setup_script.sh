@@ -6,4 +6,6 @@ snow --config-file ./connection/config.toml sql -f sql/rbac/roles_creation.sql &
 
 sh scripts/devops_queries.sh && \
 
-snow --config-file ./connection/config.toml sql -f sql/rbac/grant_truncate.sql
+snow --config-file ./connection/config.toml sql -f sql/rbac/grant_truncate.sql && \
+
+sh scripts/task_creation.sh
