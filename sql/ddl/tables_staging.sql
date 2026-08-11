@@ -1,3 +1,6 @@
+-- Tables de staging : une table par process, contenant les événements enrichis (log_trigger extrait).
+
+-- Création (ou modification) de la table staging pour le process HiH_ListenerManager.
 CREATE OR ALTER TABLE staging.hih_listener_manager (
     event_timestamp TIMESTAMP,
     log_trigger STRING,
@@ -7,6 +10,7 @@ CREATE OR ALTER TABLE staging.hih_listener_manager (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP()
 );
 
+-- Création (ou modification) de la table staging pour le process HiH_HiBroadcastUtil.
 CREATE OR ALTER TABLE staging.hih_hi_broadcast_util (
     event_timestamp TIMESTAMP,
     log_trigger STRING,
@@ -16,6 +20,7 @@ CREATE OR ALTER TABLE staging.hih_hi_broadcast_util (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP()
 );
 
+-- Création (ou modification) de la table staging pour le process Step_StandStepCounter.
 CREATE OR ALTER TABLE staging.step_stand_step_counter (
     event_timestamp TIMESTAMP,
     log_trigger STRING,
@@ -25,6 +30,7 @@ CREATE OR ALTER TABLE staging.step_stand_step_counter (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP()
 );
 
+-- Création (ou modification) de la table staging pour le process Step_SPUtils.
 CREATE OR ALTER TABLE staging.step_sp_utils (
     event_timestamp TIMESTAMP,
     log_trigger STRING,
@@ -34,6 +40,7 @@ CREATE OR ALTER TABLE staging.step_sp_utils (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP()
 );
 
+-- Création (ou modification) de la table staging pour le process Step_LSC.
 CREATE OR ALTER TABLE staging.step_lsc (
     event_timestamp TIMESTAMP,
     log_trigger STRING,
@@ -43,6 +50,7 @@ CREATE OR ALTER TABLE staging.step_lsc (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP()
 );
 
+-- Création (ou modification) de la table staging pour le process HiH_HiHealthDataInsertStore.
 CREATE OR ALTER TABLE staging.hih_hi_health_data_insert_store (
     event_timestamp TIMESTAMP,
     log_trigger STRING,
@@ -52,6 +60,7 @@ CREATE OR ALTER TABLE staging.hih_hi_health_data_insert_store (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP()
 );
 
+-- Création (ou modification) de la table staging pour le process HiH_DataStatManager.
 CREATE OR ALTER TABLE staging.hih_data_stat_manager (
     event_timestamp TIMESTAMP,
     log_trigger STRING,
@@ -61,6 +70,7 @@ CREATE OR ALTER TABLE staging.hih_data_stat_manager (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP()
 );
 
+-- Création (ou modification) de la table staging pour le process HiH_HiSyncUtil.
 CREATE OR ALTER TABLE staging.hih_hi_sync_util (
     event_timestamp TIMESTAMP,
     log_trigger STRING,
@@ -70,6 +80,7 @@ CREATE OR ALTER TABLE staging.hih_hi_sync_util (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP()
 );
 
+-- Création (ou modification) de la table staging pour le process Step_StandReportReceiver.
 CREATE OR ALTER TABLE staging.step_stand_report_receiver (
     event_timestamp TIMESTAMP,
     log_trigger STRING,
@@ -79,6 +90,7 @@ CREATE OR ALTER TABLE staging.step_stand_report_receiver (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP()
 );
 
+-- Création (ou modification) de la table staging pour le process Step_ScreenUtil.
 CREATE OR ALTER TABLE staging.step_screen_util (
     event_timestamp TIMESTAMP,
     log_trigger STRING,

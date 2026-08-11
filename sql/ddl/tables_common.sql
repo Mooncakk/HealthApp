@@ -1,3 +1,4 @@
+-- Création (ou modification) de la table des anomalies détectées lors du contrôle qualité des événements bruts.
 CREATE OR ALTER TABLE COMMON.DATA_ANOMALIES (
 	EVENT_ID NUMBER(38,0),
 	IS_CORRECT_TIMESTAMP BOOLEAN,
@@ -10,6 +11,7 @@ CREATE OR ALTER TABLE COMMON.DATA_ANOMALIES (
 );
 
 
+-- Création (ou modification) de la table de journalisation des étapes du pipeline (succès/erreurs par table).
 CREATE OR ALTER TABLE COMMON.LOGGING (
 	CREATED_AT TIMESTAMP_NTZ(9) DEFAULT CURRENT_TIMESTAMP(),
 	GRAPH_RUN_GROUP_ID VARCHAR(16777216),
@@ -18,6 +20,7 @@ CREATE OR ALTER TABLE COMMON.LOGGING (
 	ERROR_MESSAGE VARCHAR(16777216)
 );
 
+-- Création (ou modification) de la table de suivi du statut global des exécutions du pipeline de transformation.
 CREATE OR ALTER TABLE COMMON.TRANSFORMATION_PIPELINE_STATUS (
 	GRAPH_RUN_GROUP_ID VARCHAR(16777216),
 	STARTED_AT TIMESTAMP_NTZ(9),

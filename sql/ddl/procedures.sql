@@ -1,3 +1,5 @@
+-- Création (ou remplacement) de la procédure de contrôle qualité des données brutes : insère les anomalies détectées
+-- dans COMMON.DATA_ANOMALIES et retourne le nombre de lignes incorrectes.
 CREATE OR REPLACE PROCEDURE COMMON.DATA_QUALITY("GRAPH_RUN_GROUP_ID" VARCHAR)
 RETURNS INTEGER
 LANGUAGE SQL
@@ -25,6 +27,7 @@ END;
 ';
 
 
+-- Création (ou remplacement) de la procédure qui enregistre le résultat (nombre de lignes traitées, erreur éventuelle) d'une étape du pipeline.
 CREATE OR REPLACE PROCEDURE COMMON.LOG_RESULTS("GRAPH_RUN_GROUP_ID" VARCHAR, "TABLE_NAME" VARCHAR, "N_ROWS" NUMBER(38,0), "ERROR_MESSAGE" VARCHAR)
 RETURNS VARCHAR
 LANGUAGE SQL
@@ -35,6 +38,7 @@ VALUES (:GRAPH_RUN_GROUP_ID, :TABLE_NAME, :N_ROWS, :ERROR_MESSAGE);
 ';
 
 
+-- Création (ou remplacement) de la procédure qui enrichit les données valides d'un process donné et les charge dans la table staging correspondante.
 CREATE OR REPLACE PROCEDURE COMMON.ENRICH_DATA("TABLE_NAME" VARCHAR, "PROCESS_NAME" VARCHAR, "GRAPH_RUN_GROUP_ID" VARCHAR)
 RETURNS INTEGER
 LANGUAGE SQL
@@ -84,6 +88,7 @@ END;
 ';
 
 
+-- Création (ou remplacement) de la procédure qui finalise le pipeline : enregistre le statut global et vide RAW.DATA_TO_PROCESS si aucune erreur.
 CREATE OR REPLACE PROCEDURE COMMON.FINALIZE_TRANSFORMATION("GRAPH_RUN_GROUP_ID" VARCHAR, "STARTED_AT" TIMESTAMP_NTZ(9))
 RETURNS VARCHAR
 LANGUAGE SQL
@@ -115,6 +120,7 @@ END;
 ';
 
 
+-- Création (ou remplacement) de la procédure qui identifie les nouvelles données à traiter à partir du stream RAW_EVENTS_STREAM.
 CREATE OR REPLACE PROCEDURE COMMON.IDENTIFY_NEW_DATA()
 RETURNS VARCHAR
 LANGUAGE SQL
@@ -123,5 +129,4 @@ AS '
     INSERT INTO raw.data_to_process (event_id, event_timestamp, process_name, process_id, message)
     (SELECT event_id, event_timestamp, process_name, process_id, message FROM COMMON.RAW_EVENTS_STREAM);
 ';
-
 

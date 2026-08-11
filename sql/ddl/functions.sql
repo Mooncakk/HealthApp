@@ -1,3 +1,4 @@
+-- Création (ou remplacement) de la fonction qui extrait le déclencheur (premier mot-clé) d'un message de log.
 CREATE OR REPLACE FUNCTION COMMON.EXTRACT_LOG_TRIGGER("MESSAGE" VARCHAR)
 RETURNS VARCHAR
 LANGUAGE PYTHON
@@ -9,6 +10,7 @@ def extract_log_trigger(message: str) -> str:
 ';
 
 
+-- Création (ou remplacement) de la fonction qui extrait le message de log en retirant le déclencheur identifié.
 CREATE OR REPLACE FUNCTION COMMON.EXTRACT_LOG_MESSAGE("MESSAGE" VARCHAR)
 RETURNS VARCHAR
 LANGUAGE PYTHON
@@ -21,6 +23,7 @@ def extract_log_message(message: str) -> str:
 ';
 
 
+-- Création (ou remplacement) de la fonction qui vérifie que le timestamp de l'événement est cohérent (postérieur à 2016 et non futur).
 CREATE OR REPLACE FUNCTION COMMON.CHECK_CORRECT_TIMESTAMP("EVENT_TIMESTAMP" TIMESTAMP_NTZ(9))
 RETURNS BOOLEAN
 LANGUAGE SQL
@@ -29,6 +32,7 @@ AS '
 ';
 
 
+-- Création (ou remplacement) de la fonction qui vérifie que le nom du process fait partie de la liste des process valides.
 CREATE OR REPLACE FUNCTION COMMON.CHECK_CORRECT_PROCESS_NAME("PROCESS_NAME" VARCHAR)
 RETURNS BOOLEAN
 LANGUAGE SQL
@@ -57,7 +61,7 @@ AS '
     )
 ';
 
---CHECK SI LA DONNÉE A PLUS DE 5 JOURS
+-- Création (ou modification) de la fonction qui vérifie si la donnée a plus de 5 jours de retard.
 CREATE OR ALTER FUNCTION COMMON.ARRIVEE_TARDIVE (EVENT_TIMESTAMP TIMESTAMP)
 RETURNS BOOLEAN
 LANGUAGE SQL

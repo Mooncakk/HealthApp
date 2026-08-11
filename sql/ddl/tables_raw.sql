@@ -1,3 +1,4 @@
+-- Création (ou modification) de la table brute des événements issus des fichiers sources.
 CREATE OR ALTER TABLE RAW.RAW_EVENTS (
 	EVENT_ID NUMBER(38,0) autoincrement start 1 increment 1 noorder,
 	EVENT_TIMESTAMP TIMESTAMP_NTZ(9),
@@ -10,6 +11,7 @@ CREATE OR ALTER TABLE RAW.RAW_EVENTS (
 );
 
 
+-- Création (ou modification) de la table des événements identifiés comme nouveaux à traiter par le pipeline.
 CREATE OR ALTER TABLE RAW.DATA_TO_PROCESS (
 	EVENT_ID NUMBER(38,0),
 	EVENT_TIMESTAMP TIMESTAMP_NTZ(9),

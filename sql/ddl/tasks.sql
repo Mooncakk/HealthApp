@@ -1,9 +1,11 @@
+-- Création (ou modification) de la tâche déclenchée dès que le stream RAW_EVENTS_STREAM contient des données : identifie les nouvelles données à traiter.
 CREATE OR ALTER TASK COMMON.IDENTIFY_NEW_DATA_TASK
 WAREHOUSE=HEALTH_APP_WH
 WHEN SYSTEM$STREAM_HAS_DATA('COMMON.RAW_EVENTS_STREAM')
 AS
 CALL common.identify_new_data();
 
+-- Création (ou modification) de la tâche de contrôle qualité des données, exécutée après IDENTIFY_NEW_DATA_TASK.
 CREATE OR ALTER TASK COMMON.DATA_QUALITY_TASK
 WAREHOUSE = HEALTH_APP_WH
 AFTER COMMON.IDENTIFY_NEW_DATA_TASK
@@ -17,6 +19,7 @@ BEGIN
 END;
 $$;
 
+-- Création (ou modification) de la tâche d'enrichissement des données pour le process HiH_ListenerManager.
 CREATE OR ALTER TASK common.hih_listener_manager
 WAREHOUSE = HEALTH_APP_WH
 AFTER common.data_quality_task
@@ -30,6 +33,7 @@ BEGIN
 END;
 $$;
 
+-- Création (ou modification) de la tâche d'enrichissement des données pour le process HiH_HiBroadcastUtil.
 CREATE OR ALTER TASK common.hih_hibroadcastutil
 WAREHOUSE = HEALTH_APP_WH
 AFTER common.data_quality_task
@@ -43,6 +47,7 @@ BEGIN
 END;
 $$;
 
+-- Création (ou modification) de la tâche d'enrichissement des données pour le process Step_StandStepCounter.
 CREATE OR ALTER TASK common.step_standstepcounter
 WAREHOUSE = HEALTH_APP_WH
 AFTER common.data_quality_task
@@ -56,6 +61,7 @@ BEGIN
 END;
 $$;
 
+-- Création (ou modification) de la tâche d'enrichissement des données pour le process Step_SPUtils.
 CREATE OR ALTER TASK common.step_sputils
 WAREHOUSE = HEALTH_APP_WH
 AFTER common.data_quality_task
@@ -69,6 +75,7 @@ BEGIN
 END;
 $$;
 
+-- Création (ou modification) de la tâche d'enrichissement des données pour le process Step_LSC.
 CREATE OR ALTER TASK common.step_lsc
 WAREHOUSE = HEALTH_APP_WH
 AFTER common.data_quality_task
@@ -82,6 +89,7 @@ BEGIN
 END;
 $$;
 
+-- Création (ou modification) de la tâche d'enrichissement des données pour le process HiH_HiHealthDataInsertStore.
 CREATE OR ALTER TASK common.hih_hihealthdatainsertstore
 WAREHOUSE = HEALTH_APP_WH
 AFTER common.data_quality_task
@@ -95,6 +103,7 @@ BEGIN
 END;
 $$;
 
+-- Création (ou modification) de la tâche d'enrichissement des données pour le process HiH_DataStatManager.
 CREATE OR ALTER TASK common.hih_datastatmanager
 WAREHOUSE = HEALTH_APP_WH
 AFTER common.data_quality_task
@@ -108,6 +117,7 @@ BEGIN
 END;
 $$;
 
+-- Création (ou modification) de la tâche d'enrichissement des données pour le process HiH_HiSyncUtil.
 CREATE OR ALTER TASK common.hih_hisyncutil
 WAREHOUSE = HEALTH_APP_WH
 AFTER common.data_quality_task
@@ -121,6 +131,7 @@ BEGIN
 END;
 $$;
 
+-- Création (ou modification) de la tâche d'enrichissement des données pour le process Step_StandReportReceiver.
 CREATE OR ALTER TASK common.step_standreportreceiver
 WAREHOUSE = HEALTH_APP_WH
 AFTER common.data_quality_task
@@ -134,6 +145,7 @@ BEGIN
 END;
 $$;
 
+-- Création (ou modification) de la tâche d'enrichissement des données pour le process Step_ScreenUtil.
 CREATE OR ALTER TASK common.step_screenutil
 WAREHOUSE = HEALTH_APP_WH
 AFTER common.data_quality_task
@@ -147,6 +159,7 @@ BEGIN
 END;
 $$;
 
+-- Création (ou modification) de la tâche finale du graphe : enregistre le statut du pipeline et vide la table des données à traiter.
 CREATE OR ALTER TASK common.FINALIZER_TRANSFORMATION
 WAREHOUSE = HEALTH_APP_WH
 FINALIZE = 'common.IDENTIFY_NEW_DATA_TASK'
@@ -162,6 +175,7 @@ END;
 $$;
 
 
+-- Activation (reprise) de toutes les tâches du pipeline.
 ALTER TASK common.data_quality_task RESUME;
 ALTER TASK common.hih_listener_manager RESUME;
 ALTER TASK common.hih_hibroadcastutil RESUME;
