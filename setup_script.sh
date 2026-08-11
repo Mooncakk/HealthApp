@@ -1,3 +1,4 @@
+#Chargement du dataset dans le stage et ingestion des données dans la table brut.
 sh connection/config_snow_cli.sh && \
 
 sh scripts/db_creation.sh && \

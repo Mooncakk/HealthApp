@@ -1,3 +1,5 @@
+-- Charge les données présentes dans le stage interne COMMON.INTERNAL_STAGE
+-- vers la table RAW.RAW_EVENTS.
 COPY INTO RAW.RAW_EVENTS (
     event_timestamp,
     process_name,
